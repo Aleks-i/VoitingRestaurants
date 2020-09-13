@@ -18,14 +18,14 @@ import static ru.votingrestaurants.topjava20.DishesTestData.*;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class DishesServiceTest {
+public class DishServiceTest {
 
     @Autowired
-    private DishesService dishesService;
+    private DishService dishService;
 
     @Test
     public void crete() {
-        Dish created = dishesService.crete(getNewDish(), ADMIN_ID);
+        Dish created = dishService.crete(getNewDish(), ADMIN_ID);
         int newId = created.getId();
         Dish newDish = getNewDish();
         newDish.setId(newId);
@@ -34,27 +34,27 @@ public class DishesServiceTest {
 
     @Test
     public void delete() {
-        dishesService.delete(DISHES_ID,ADMIN_ID);
-        assertThrows(NotFoundException.class, () -> dishesService.getDish(DISHES_ID, ADMIN_ID));
+        dishService.delete(DISHES_ID,ADMIN_ID);
+        assertThrows(NotFoundException.class, () -> dishService.getDish(DISHES_ID, ADMIN_ID));
     }
 
     @Test
     public void deleteAdminNotFound() {
-        assertThrows(NotFoundException.class, () -> dishesService.getDish(DISHES_ID, NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> dishService.getDish(DISHES_ID, NOT_FOUND));
     }
 
     @Test
     public void deleteDishNotFound() {
-        assertThrows(NotFoundException.class, () -> dishesService.getDish(NOT_FOUND, ADMIN_ID));
+        assertThrows(NotFoundException.class, () -> dishService.getDish(NOT_FOUND, ADMIN_ID));
     }
 
     @Test
     public void getAll() {
-        MEAL_MATCHER.assertMatch(dishesService.getAll(ADMIN_ID), DISHES);
+        MEAL_MATCHER.assertMatch(dishService.getAll(ADMIN_ID), DISHES);
     }
 
     @Test
     public void getAllAdminNotFound() {
-        assertThrows(NotFoundException.class, () -> dishesService.getDish(NOT_FOUND, ADMIN_ID));
+        assertThrows(NotFoundException.class, () -> dishService.getDish(NOT_FOUND, ADMIN_ID));
     }
 }

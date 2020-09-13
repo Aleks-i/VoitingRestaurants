@@ -1,5 +1,7 @@
 package ru.votingrestaurants.topjava20.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -18,6 +20,7 @@ public class Dish extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "admin_id", nullable = false)
+    @JsonIgnore
     private Admin admin;
 
     public Dish(Integer id, String name, Double price, LocalDate localDate) {

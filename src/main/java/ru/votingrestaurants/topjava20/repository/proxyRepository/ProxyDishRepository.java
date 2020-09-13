@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.votingrestaurants.topjava20.model.Dish;
 import java.util.List;
 
-public interface ProxyDishesRepository extends JpaRepository<Dish, Integer> {
+public interface ProxyDishRepository extends JpaRepository<Dish, Integer> {
 
     @Transactional
     @Query("DELETE FROM Dish d WHERE d.id=:id AND d.admin.id=:admin_id")

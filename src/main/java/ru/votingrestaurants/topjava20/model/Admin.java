@@ -1,5 +1,7 @@
 package ru.votingrestaurants.topjava20.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,9 +19,11 @@ public class Admin extends BaseEntity {
     private String password;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "admin")
+    @JsonIgnore
     private List<Dish> lunchMenu;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
+    @JsonIgnore
     private List<Vote> voteList;
 
     public Admin(Integer id, String name, String email, String password) {

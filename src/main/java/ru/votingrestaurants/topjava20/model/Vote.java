@@ -1,5 +1,7 @@
 package ru.votingrestaurants.topjava20.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,6 +18,7 @@ public class Vote extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = false)
+    @JsonIgnore
     private Admin admin;
 
     @Column(name = "user_id")
