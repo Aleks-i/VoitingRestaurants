@@ -10,7 +10,6 @@ import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyAdminRepos
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public class AdminRepositoryImpl implements AdminRepository {
    private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
 
@@ -18,22 +17,9 @@ public class AdminRepositoryImpl implements AdminRepository {
     ProxyAdminRepository proxyAdminRepository;
 
     @Override
-    @Transactional
-    public Admin save(Admin admin) {
-        return proxyAdminRepository.save(admin);
-    }
-
-    @Override
-    @Transactional
-    public boolean delete(int id) {
-        return proxyAdminRepository.delete(id) != 0;
-    }
-
-    @Override
     public Admin get(int id) {
         return proxyAdminRepository.findById(id).orElse(null);
     }
-
 
     @Override
     public List<Admin> getAll() {

@@ -14,6 +14,7 @@ import ru.votingrestaurants.topjava20.service.DishService;
 import java.net.URI;
 import java.util.List;
 
+import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNew;
 import static ru.votingrestaurants.topjava20.web.SecurityUtil.authAdminId;
 
 @RestController
@@ -30,26 +31,19 @@ public class DishRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> save(@RequestBody Dish dinner) {
-        LOG.info("save {}", dinner);
-//        checkNew(dinner);
-        Dish createdDinner = dishService.crete(dinner, authAdminId());
+    public ResponseEntity<Dish> save(@RequestBody Dish dish) {
+        LOG.info("save {}", dish);
+        checkNew(dish);
+        Dish createdDinner = dishService.create(dish, authAdminId());
         URI ofNewRecourse = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path(REST_URL_DINNERS + "/{id}")
             .buildAndExpand(createdDinner.getId()).toUri();
         return ResponseEntity.created(ofNewRecourse).body(createdDinner);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        LOG.info("delete {}", id);
-        dishService.delete(id, authAdminId());
-    }
-
     @GetMapping("/{admin_id}")
-    public List<Dish> getAll(@PathVariable int admin_id) {
+    public List<Dish> getAllForAdmin(@PathVariable int admin_id) {
         LOG.info("getAll {}", admin_id);
-        return dishService.getAll(admin_id);
+        return dishService.getAllForAdmin(admin_id);
     }
 }

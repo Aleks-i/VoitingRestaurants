@@ -3,6 +3,7 @@ package ru.votingrestaurants.topjava20.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -11,9 +12,11 @@ import java.time.LocalTime;
 public class Vote extends BaseEntity {
 
     @Column(name = "date")
+    @NotNull
     private LocalDate localDate;
 
     @Column(name = "time")
+    @NotNull
     private LocalTime localTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,7 +25,12 @@ public class Vote extends BaseEntity {
     private Admin admin;
 
     @Column(name = "user_id")
-    private int user_id;
+    @NotNull
+    private Integer user_id;
+
+    public Vote(LocalDate localDate, LocalTime localTime, int user_id) {
+        this(null, localDate, localTime, user_id);
+    }
 
     public Vote(Integer id, LocalDate localDate, LocalTime localTime, int user_id) {
         super(id);

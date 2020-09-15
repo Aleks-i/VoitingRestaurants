@@ -7,15 +7,16 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class VoteTestData {
-    public static TestMatcher<Vote> MEAL_MATCHER = TestMatcher.usingFieldsWithIgnoringAssertions(Vote.class, "admin");
+    public static TestMatcher<Vote> VOTE_MATCHER = TestMatcher.usingFieldsWithIgnoringAssertions(Vote.class, "admin");
 
     public static final int START_SEQ = 100000;
-    public static final int NOT_FOUND = 10;
     public static final int VOTE_ID = START_SEQ + 13;
     public static final int USER_ID = START_SEQ + 2;
     public static final int ADMIN_ID = START_SEQ;
+    public static final int ADMIN_ID_1 = START_SEQ + 1;
 
     public static final Admin ADMIN = new Admin(ADMIN_ID, "Admin0", "admin0@yandex.ru", "password0");
+    public static final Admin ADMIN1 = new Admin(ADMIN_ID_1, "Admin1", "admin1@yandex.ru", "password1");
 
     public static final Vote VOTE1 = new Vote(VOTE_ID, LocalDate.of(2020,8, 25)
             , LocalTime.of(10, 00, 00), USER_ID);
@@ -38,8 +39,15 @@ public class VoteTestData {
 
     public static Vote getNewVoteToday() {
         Vote newVote = new Vote(null, LocalDate.now(),
-                LocalTime.of(9, 30, 45), USER_ID);
+                LocalTime.of(10, 30, 45), USER_ID);
         newVote.setAdmin(ADMIN);
+        return newVote;
+    }
+
+    public static Vote getNewVoteAfterEleven() {
+        Vote newVote = new Vote(VOTE_ID, LocalDate.now(),
+                LocalTime.of(10, 30, 45), USER_ID);
+        newVote.setAdmin(ADMIN1);
         return newVote;
     }
 

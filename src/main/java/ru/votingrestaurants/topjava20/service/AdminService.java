@@ -2,7 +2,6 @@ package ru.votingrestaurants.topjava20.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import ru.votingrestaurants.topjava20.model.Admin;
 import ru.votingrestaurants.topjava20.repository.AdminRepository;
 import java.util.List;
@@ -18,22 +17,7 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-
-    public Admin create(Admin admin) {
-        Assert.notNull(admin, "admin must be not null");
-        return adminRepository.save(admin);
-    }
-
-    public void update(Admin admin) {
-        Assert.notNull(admin, "admin must be not null");
-        checkNotFoundWithId(adminRepository.save(admin), admin.getId());
-    }
-
-    public void delete(int id) {
-        checkNotFoundWithId(adminRepository.delete(id), id);
-    }
-
-    public Admin get(int id) {
+    public Admin getAdmin(int id) {
         return checkNotFoundWithId(adminRepository.get(id), id);
     }
 

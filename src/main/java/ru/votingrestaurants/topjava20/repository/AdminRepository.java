@@ -1,13 +1,10 @@
 package ru.votingrestaurants.topjava20.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.votingrestaurants.topjava20.model.Admin;
 import java.util.List;
 
 public interface AdminRepository {
-
-    Admin save(Admin admin);
-
-    boolean delete(int id);
 
     Admin get(int id);
 

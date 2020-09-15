@@ -3,19 +3,29 @@ package ru.votingrestaurants.topjava20.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
 
-    @Column(name = "name")
+    @Size(min = 5, max = 20)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email")
+    @Size(min = 4, max = 20)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
+    @NotBlank
+    @Size(min = 5, max = 20)
     private String password;
+
+    public User(String name, String email, String password) {
+        this(null, name, email, password);
+    }
 
     public User(Integer id, String name, String email, String password) {
         super(id);

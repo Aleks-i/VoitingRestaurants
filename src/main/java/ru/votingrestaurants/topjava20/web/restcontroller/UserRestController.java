@@ -13,6 +13,10 @@ import ru.votingrestaurants.topjava20.service.UserService;
 
 import java.net.URI;
 
+import static ru.votingrestaurants.topjava20.util.ValidationUtil.assureIdConsistent;
+import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNew;
+import static ru.votingrestaurants.topjava20.web.SecurityUtil.authUserId;
+
 @RestController
 @RequestMapping(value = UserRestController.REST_URL_USERS, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRestController {
@@ -26,35 +30,28 @@ public class UserRestController {
         this.userService = userService;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/registred", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> create(@RequestBody User user) {
         LOG.info("create {}", user);
-//        checkNew(user);
+        checkNew(user);
         User createdUser = userService.create(user);
         URI ofNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL_USERS + "/{id}")
                 .buildAndExpand(createdUser.getId()).toUri();
         return ResponseEntity.created(ofNewResource).body(createdUser);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody User user, @PathVariable int id) {
-        LOG.info("update {} with id={}", user, id);
-//        assureIdConsistent(user, id);
+    public void update(@RequestBody User user) {
+        LOG.info("update {} with id={}", user, authUserId());
+        assureIdConsistent(user, authUserId());
         userService.update(user);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        LOG.info("delete {}",id);
-        userService.delete(id);
-    }
-
-    @GetMapping("/{id}")
-    public User get(@PathVariable int id) {
-        LOG.info("get {}", id);
-        return userService.getUser(id);
+    public void delete() {
+        LOG.info("delete {}",authUserId());
+        userService.delete(authUserId());
     }
 }

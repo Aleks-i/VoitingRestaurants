@@ -29,15 +29,15 @@ public class UserServiceTest {
         int newId =created.getId();
         User newUser = getNewUser();
         newUser.setId(newId);
-        MEAL_MATCHER.assertMatch(created, newUser);
-        MEAL_MATCHER.assertMatch(userService.getUser(newId), newUser);
+        VOTE_MATCHER.assertMatch(created, newUser);
+        VOTE_MATCHER.assertMatch(userService.getUser(newId), newUser);
     }
 
     @Test
     public void update() {
         User updatedUser = getUpdatedUser();
         userService.update(updatedUser);
-        MEAL_MATCHER.assertMatch(userService.getUser(USER_ID), getUpdatedUser());
+        VOTE_MATCHER.assertMatch(userService.getUser(USER_ID), getUpdatedUser());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class UserServiceTest {
     @Test
     public void get() {
         User user = userService.getUser(USER_ID);
-        MEAL_MATCHER.assertMatch(user, USER);
+        VOTE_MATCHER.assertMatch(user, USER);
     }
 
     @Test

@@ -24,12 +24,13 @@ public class DishServiceTest {
     private DishService dishService;
 
     @Test
-    public void crete() {
-        Dish created = dishService.crete(getNewDish(), ADMIN_ID);
+    public void create() {
+        Dish created = dishService.create(getNewDish(), ADMIN_ID);
         int newId = created.getId();
         Dish newDish = getNewDish();
         newDish.setId(newId);
-        MEAL_MATCHER.assertMatch(created, newDish);
+        VOTE_MATCHER.assertMatch(created, newDish);
+        VOTE_MATCHER.assertMatch(dishService.getDish(newId, ADMIN_ID), newDish);
     }
 
     @Test
@@ -49,8 +50,14 @@ public class DishServiceTest {
     }
 
     @Test
+    public void getDish() {
+        Dish actual = dishService.getDish(DISHES_ID, 100000);
+        VOTE_MATCHER.assertMatch(actual, DISH1);
+    }
+
+    @Test
     public void getAll() {
-        MEAL_MATCHER.assertMatch(dishService.getAll(ADMIN_ID), DISHES);
+        VOTE_MATCHER.assertMatch(dishService.getAllForAdmin(ADMIN_ID), DISHES);
     }
 
     @Test

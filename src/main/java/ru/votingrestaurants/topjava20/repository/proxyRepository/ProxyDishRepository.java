@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.votingrestaurants.topjava20.model.Dish;
 import java.util.List;
 
+@Transactional(readOnly = true)
 public interface ProxyDishRepository extends JpaRepository<Dish, Integer> {
 
     @Transactional
@@ -17,4 +18,6 @@ public interface ProxyDishRepository extends JpaRepository<Dish, Integer> {
 
     @Query("SELECT d FROM Dish d WHERE d.admin.id=:admin_id")
     List<Dish> getAll(@Param("admin_id") int admin_id);
+
+
 }

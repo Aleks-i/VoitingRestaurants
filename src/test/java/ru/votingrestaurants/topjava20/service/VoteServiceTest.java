@@ -8,7 +8,12 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.votingrestaurants.topjava20.model.Vote;
+import ru.votingrestaurants.topjava20.util.exception.NotFoundException;
+
 import java.time.LocalDate;
+
+import static org.junit.Assert.assertThrows;
+import static ru.votingrestaurants.topjava20.UserTestData.NOT_FOUND;
 import static ru.votingrestaurants.topjava20.VoteTestData.*;
 
 @ContextConfiguration({
@@ -28,24 +33,30 @@ public class VoteServiceTest {
         int newId = created.getId();
         Vote newVote = getNewVoteToday();
         newVote.setId(newId);
-//        Vote getVote = voteService.getVote(newId, USER_ID, LocalDate.now());
-        MEAL_MATCHER.assertMatch(created, newVote);
-//        MEAL_MATCHER.assertMatch(getVote, newVote);
+        VOTE_MATCHER.assertMatch(created, newVote);
+        VOTE_MATCHER.assertMatch(voteService.getVote(newId, USER_ID, LocalDate.now()), newVote);
+
+    }
+
+    @Test
+    public void saveVoteRepeatAfterEleven() {
+        Vote creatNew = voteService.save(getNewVoteToday(), USER_ID, ADMIN_ID);
+        assertThrows(NotFoundException.class, () -> voteService.save(getNewVoteAfterEleven(), USER_ID, ADMIN_ID_1));
     }
 
     @Test
     public void getVote() {
         Vote vote = voteService.getVote(VOTE_ID, USER_ID, LocalDate.of(2020,8, 25));
-        MEAL_MATCHER.assertMatch(vote, VOTE1);
+        VOTE_MATCHER.assertMatch(vote, VOTE1);
     }
 
     @Test
     public void getAllVotesOfAdmin() {
-        MEAL_MATCHER.assertMatch(voteService.getAllVotesOfAdmin(ADMIN_ID), VOTES_FOR_ADMIN);
+        VOTE_MATCHER.assertMatch(voteService.getAllVotesOfAdmin(ADMIN_ID), VOTES_FOR_ADMIN);
     }
 
     @Test
     public void getAll() {
-        MEAL_MATCHER.assertMatch(voteService.getAll(), ALL_VOTES);
+        VOTE_MATCHER.assertMatch(voteService.getAll(), ALL_VOTES);
     }
 }

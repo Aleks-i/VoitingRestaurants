@@ -3,25 +3,34 @@ package ru.votingrestaurants.topjava20.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "dishes")
 public class Dish extends BaseEntity {
 
-    @Column(name = "name")
+    @Size(min = 5, max = 20)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "price")
+    @NotNull
     private Double price;
 
     @Column(name = "date")
+    @NotNull
     private LocalDate localDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = false)
     @JsonIgnore
     private Admin admin;
+
+    public Dish(String name, Double price, LocalDate localDate) {
+        this(null, name, price, localDate);
+    }
 
     public Dish(Integer id, String name, Double price, LocalDate localDate) {
         super(id);

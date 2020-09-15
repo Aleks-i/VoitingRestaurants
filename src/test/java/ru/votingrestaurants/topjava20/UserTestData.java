@@ -3,7 +3,7 @@ package ru.votingrestaurants.topjava20;
 import ru.votingrestaurants.topjava20.model.User;
 
 public class UserTestData {
-    public static TestMatcher<User> MEAL_MATCHER = TestMatcher.usingFieldsWithIgnoringAssertions(User.class, "");
+    public static TestMatcher<User> VOTE_MATCHER = TestMatcher.usingFieldsWithIgnoringAssertions(User.class, "");
 
     public static final int START_SEQ = 100002;
     public static final int NOT_FOUND = 10;

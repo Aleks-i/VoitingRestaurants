@@ -24,46 +24,18 @@ public class AdminServiceTest {
     protected AdminService adminService;
 
     @Test
-    public void create() {
-        Admin created = adminService.create(getNewAdmin());
-        int newId =created.getId();
-        Admin newAdmin = getNewAdmin();
-        newAdmin.setId(newId);
-        MEAL_MATCHER.assertMatch(created, newAdmin);
-        MEAL_MATCHER.assertMatch(adminService.get(newId), newAdmin);
+    public void getAmin() {
+        Admin admin = adminService.getAdmin(ADMIN_ID_1);
+        VOTE_MATCHER.assertMatch(admin, ADMIN_1);
     }
 
     @Test
-    public void update() {
-        Admin updatedAdmin = getUpdatedAdmin();
-        adminService.update(updatedAdmin);
-        MEAL_MATCHER.assertMatch(adminService.get(ADMIN_ID_1), getUpdatedAdmin());
-    }
-
-    @Test
-    public void delete() {
-        adminService.delete(ADMIN_ID_1);
-        assertThrows(NotFoundException.class, () -> adminService.get(ADMIN_ID_1));
-    }
-
-    @Test
-    public void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> adminService.delete(NOT_FOUND));
-    }
-
-    @Test
-    public void get() {
-        Admin admin = adminService.get(ADMIN_ID_1);
-        MEAL_MATCHER.assertMatch(admin, ADMIN_1);
-    }
-
-    @Test
-    public void getNotFound() {
-        assertThrows(NotFoundException.class, () -> adminService.get(NOT_FOUND));
+    public void getAdminNotFound() {
+        assertThrows(NotFoundException.class, () -> adminService.getAdmin(NOT_FOUND));
     }
 
     @Test
     public void getAll() {
-        MEAL_MATCHER.assertMatch(adminService.getAll(), ADMINS);
+        VOTE_MATCHER.assertMatch(adminService.getAll(), ADMINS);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.votingrestaurants.topjava20.model.User;
 
+@Transactional(readOnly = true)
 public interface ProxyUserRepository extends JpaRepository<User, Integer> {
 
     @Transactional

@@ -11,7 +11,6 @@ import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyDishReposi
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public class DishRepositoryImpl implements DishRepository {
 
     @Autowired
@@ -21,12 +20,13 @@ public class DishRepositoryImpl implements DishRepository {
     private ProxyAdminRepository adminRepository;
 
     @Override
-    public Dish save(Dish dinner, int admin_id) {
-        if (!dinner.isNew() && getDish(dinner.getId(), admin_id) == null) {
+    @Transactional
+    public Dish save(Dish dish, int admin_id) {
+        if (!dish.isNew() && getDish(dish.getId(), admin_id) == null) {
             return null;
         }
-        dinner.setAdmin(adminRepository.getOne(admin_id));
-        return proxyDishRepository.save(dinner);
+        dish.setAdmin(adminRepository.getOne(admin_id));
+        return proxyDishRepository.save(dish);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class DishRepositoryImpl implements DishRepository {
     }
 
     @Override
-    public List<Dish> getAll(int admin_id) {
+    public List<Dish> getAllForAdmin(int admin_id) {
         return proxyDishRepository.getAll(admin_id);
     }
 }

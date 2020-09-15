@@ -13,19 +13,19 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public class VoteRepositoryImpl implements VoteRepository {
 
     @Autowired
     private ProxyVoteRepository proxyVoteRepository;
 
     @Autowired
-    private ProxyAdminRepository adminRepository;
-
-    @Autowired
     private ProxyUserRepository proxyUserRepository;
 
+    @Autowired
+    private ProxyAdminRepository proxyAdminRepository;
+
     @Override
+    @Transactional
     public Vote save(Vote vote, int user_id, int admin_id) {
         LocalDate localDateToday = LocalDate.now();
         if (!vote.isNew() && (getVote(vote.getId(), user_id, vote.getLocalDate()) == null)
@@ -37,12 +37,8 @@ public class VoteRepositoryImpl implements VoteRepository {
             return null;
         }
 
-        if (vote.getUser_id() != user_id || vote.getAdmin().getId() != admin_id) {
-            return null;
-        }
-
-        vote.setAdmin(adminRepository.getOne(admin_id));
-        vote.setUser_id(proxyUserRepository.getOne(user_id).getId());
+        vote.setAdmin(proxyAdminRepository.getOne(admin_id));
+        vote.setUser_id(proxyUserRepository.getOne(user_id).id());
         return proxyVoteRepository.save(vote);
     }
 

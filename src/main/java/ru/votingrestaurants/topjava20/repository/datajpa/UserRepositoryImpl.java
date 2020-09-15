@@ -8,7 +8,6 @@ import ru.votingrestaurants.topjava20.repository.UserRepository;
 import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyUserRepository;
 
 @Repository
-@Transactional(readOnly = true)
 public class UserRepositoryImpl implements UserRepository {
 
     @Autowired

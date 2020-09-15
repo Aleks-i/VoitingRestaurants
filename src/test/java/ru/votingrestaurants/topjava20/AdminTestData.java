@@ -4,7 +4,7 @@ import ru.votingrestaurants.topjava20.model.Admin;
 import java.util.List;
 
 public class AdminTestData {
-    public static TestMatcher<Admin> MEAL_MATCHER = TestMatcher.usingFieldsWithIgnoringAssertions(Admin.class, "lunchMenu", "voteList");
+    public static TestMatcher<Admin> VOTE_MATCHER = TestMatcher.usingFieldsWithIgnoringAssertions(Admin.class, "lunchMenu", "voteList");
 
     public static final int START_SEQ = 100000;
     public static final int NOT_FOUND = 10;
