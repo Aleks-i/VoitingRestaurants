@@ -1,12 +1,15 @@
 package ru.votingrestaurants.topjava20.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "admins")
 public class Admin extends BaseEntity {
@@ -24,6 +27,7 @@ public class Admin extends BaseEntity {
     @Size(min = 5, max = 20)
     private String password;
 
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "admin")
     @JsonIgnore
     private List<Dish> lunchMenu;
