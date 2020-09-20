@@ -3,6 +3,7 @@ package ru.votingrestaurants.topjava20;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.votingrestaurants.topjava20.model.Dish;
+import ru.votingrestaurants.topjava20.model.Role;
 import ru.votingrestaurants.topjava20.model.User;
 import ru.votingrestaurants.topjava20.model.Vote;
 import ru.votingrestaurants.topjava20.service.DishService;
@@ -23,9 +24,8 @@ public class MainApplicationContext {
             UserService userService = appCtx.getBean(UserService.class);
             VoteService voteService = appCtx.getBean(VoteService.class);
 
-            dishService.create(new Dish(null, "NewDish", 220.45,
-                    LocalDate.now()), 100000);
-            userService.create(new User(null, "NewUser", "newauser@mail.ru", "newpass"));
+            dishService.create(new Dish(null, "NewDish", 220.45), 100000);
+            userService.create(new User(null, "NewUser", "newauser@mail.ru", "newpass", Role.USER));
             voteService.save(new Vote(LocalDate.now(),
                     LocalTime.of(10, 30, 45), 100002), 100002, 100000);
         }

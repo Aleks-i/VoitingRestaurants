@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.votingrestaurants.topjava20.View;
 import ru.votingrestaurants.topjava20.model.Dish;
 import ru.votingrestaurants.topjava20.service.DishService;
+import ru.votingrestaurants.topjava20.web.SecurityUtil;
 
 import java.net.URI;
 import java.util.List;
@@ -30,15 +33,24 @@ public class DishRestController {
         this.dishService = dishService;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> save(@RequestBody Dish dish) {
-        LOG.info("save {}", dish);
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Dish> save(@Validated(View.Web.class)@RequestBody Dish dish) {
+        int adminId = SecurityUtil.authAdminId();
         checkNew(dish);
-        Dish createdDinner = dishService.create(dish, authAdminId());
+        LOG.info("save {} for admin {}", dish, adminId);
+        Dish createdDis = dishService.create(dish, adminId);
         URI ofNewRecourse = ServletUriComponentsBuilder.fromCurrentContextPath()
             .path(REST_URL_DINNERS + "/{id}")
-            .buildAndExpand(createdDinner.getId()).toUri();
-        return ResponseEntity.created(ofNewRecourse).body(createdDinner);
+            .buildAndExpand(createdDis.getId()).toUri();
+        return ResponseEntity.created(ofNewRecourse).body(createdDis);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id) {
+        int adminId = SecurityUtil.authAdminId();
+        LOG.info("delete dish {} for admin {}", id, adminId);
+        dishService.delete(id, adminId);
     }
 
     @GetMapping("/{admin_id}")

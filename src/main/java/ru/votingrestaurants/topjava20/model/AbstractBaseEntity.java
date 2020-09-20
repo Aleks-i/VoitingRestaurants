@@ -2,6 +2,7 @@ package ru.votingrestaurants.topjava20.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.hibernate.Hibernate;
+import org.springframework.util.Assert;
 import ru.votingrestaurants.topjava20.HasId;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
 @MappedSuperclass
 @Access(AccessType.FIELD)
 //@JsonAutoDetect(fieldVisibility = ANY, getterVisibility = NONE, isGetterVisibility = NONE, setterVisibility = NONE)
-public class BaseEntity implements HasId {
+public abstract class AbstractBaseEntity implements HasId {
 
     public static final int START_SEQ = 100000;
 
@@ -21,11 +22,11 @@ public class BaseEntity implements HasId {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     protected Integer id;
 
-    public BaseEntity(Integer id) {
+    public AbstractBaseEntity(Integer id) {
         this.id = id;
     }
 
-    public BaseEntity() {
+    public AbstractBaseEntity() {
     }
 
     public Integer getId() {
@@ -40,18 +41,29 @@ public class BaseEntity implements HasId {
         return getId() == null;
     }
 
+    public int id() {
+        Assert.notNull(id, "Entity must has id");
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
 
         if (o == null || !getClass().equals(Hibernate.getClass(o))) return false;
 
-        BaseEntity that = (BaseEntity) o;
+        AbstractBaseEntity that = (AbstractBaseEntity) o;
         return id != null && id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
         return id == null ? 0 : id;
+    }
+
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":" + id;
     }
 }

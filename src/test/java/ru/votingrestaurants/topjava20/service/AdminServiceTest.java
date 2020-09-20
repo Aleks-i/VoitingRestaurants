@@ -1,5 +1,6 @@
 package ru.votingrestaurants.topjava20.service;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import ru.votingrestaurants.topjava20.model.Admin;
 import ru.votingrestaurants.topjava20.util.exception.NotFoundException;
 import static org.junit.Assert.*;
 import static ru.votingrestaurants.topjava20.AdminTestData.*;
+import static ru.votingrestaurants.topjava20.AdminTestData.EMAIL;
+import static ru.votingrestaurants.topjava20.AdminTestData.NOT_FOUND;
+import static ru.votingrestaurants.topjava20.AdminTestData.VOTE_MATCHER;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -35,7 +39,18 @@ public class AdminServiceTest {
     }
 
     @Test
+    @Ignore
     public void getAll() {
         VOTE_MATCHER.assertMatch(adminService.getAll(), ADMINS);
+    }
+
+    @Test
+    public void getByEmail() {
+        VOTE_MATCHER.assertMatch(adminService.getByEmail(EMAIL), ADMIN_1);
+    }
+
+    @Test
+    public void getByEmailNotFound() {
+        assertThrows(NotFoundException.class, () -> adminService.getByEmail(EMAIL_NOT_FOUND));
     }
 }

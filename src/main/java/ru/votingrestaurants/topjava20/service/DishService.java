@@ -1,13 +1,11 @@
 package ru.votingrestaurants.topjava20.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.votingrestaurants.topjava20.model.Dish;
 import ru.votingrestaurants.topjava20.repository.DishRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNotFoundWithId;
 

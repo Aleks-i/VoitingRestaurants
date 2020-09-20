@@ -9,7 +9,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "votes")
-public class Vote extends BaseEntity {
+public class Vote extends AbstractBaseEntity {
 
     @Column(name = "date")
     @NotNull
@@ -40,10 +40,6 @@ public class Vote extends BaseEntity {
     }
 
     public Vote() {
-    }
-
-    public Vote(Vote vote) {
-        this(vote.id, vote.localDate, vote.localTime, vote.user_id);
     }
 
     public LocalDate getLocalDate() {

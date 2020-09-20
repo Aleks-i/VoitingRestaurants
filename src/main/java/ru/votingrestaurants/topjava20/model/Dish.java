@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "dishes")
-public class Dish extends BaseEntity {
+public class Dish extends AbstractBaseEntity {
 
     @Size(min = 5, max = 20)
     @Column(name = "name", nullable = false)
@@ -28,22 +28,18 @@ public class Dish extends BaseEntity {
     @JsonIgnore
     private Admin admin;
 
-    public Dish(String name, Double price, LocalDate localDate) {
-        this(null, name, price, localDate);
-    }
-
-    public Dish(Integer id, String name, Double price, LocalDate localDate) {
-        super(id);
-        this.name = name;
-        this.price = price;
-        this.localDate = localDate;
-    }
-
     public Dish() {
     }
 
-    public Dish(Dish dish) {
-        this(dish.id, dish.name, dish.price, dish.localDate);
+    public Dish(String name, Double price) {
+        this(null, name, price);
+    }
+
+    public Dish(Integer id, String name, Double price) {
+        super(id);
+        this.name = name;
+        this.price = price;
+        this.localDate = LocalDate.now();
     }
 
     public String getName() {
@@ -81,10 +77,10 @@ public class Dish extends BaseEntity {
     @Override
     public String toString() {
         return "Dish{" +
+                ", id=" + id +
                 "name='" + name + '\'' +
                 ", price=" + price +
                 ", localDate=" + localDate +
-                ", id=" + id +
                 '}';
     }
 }

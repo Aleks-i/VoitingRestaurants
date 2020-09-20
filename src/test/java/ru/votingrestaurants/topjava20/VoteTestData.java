@@ -1,6 +1,7 @@
 package ru.votingrestaurants.topjava20;
 
 import ru.votingrestaurants.topjava20.model.Admin;
+import ru.votingrestaurants.topjava20.model.Role;
 import ru.votingrestaurants.topjava20.model.Vote;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,8 +16,8 @@ public class VoteTestData {
     public static final int ADMIN_ID = START_SEQ;
     public static final int ADMIN_ID_1 = START_SEQ + 1;
 
-    public static final Admin ADMIN = new Admin(ADMIN_ID, "Admin0", "admin0@yandex.ru", "password0");
-    public static final Admin ADMIN1 = new Admin(ADMIN_ID_1, "Admin1", "admin1@yandex.ru", "password1");
+    public static final Admin ADMIN = new Admin(ADMIN_ID, "Admin0", "admin0@yandex.ru", "password0", Role.ADMIN);
+    public static final Admin ADMIN1 = new Admin(ADMIN_ID_1, "Admin1", "admin1@yandex.ru", "password1", Role.ADMIN);
 
     public static final Vote VOTE1 = new Vote(VOTE_ID, LocalDate.of(2020,8, 25)
             , LocalTime.of(10, 00, 00), USER_ID);
