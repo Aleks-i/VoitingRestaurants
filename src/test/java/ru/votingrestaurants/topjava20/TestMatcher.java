@@ -1,7 +1,7 @@
 package ru.votingrestaurants.topjava20;
 
-import java.util.List;
 import java.util.function.BiConsumer;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMatcher<T> {
@@ -33,11 +33,6 @@ public class TestMatcher<T> {
 
     public void assertMatch(T actual, T expected) {
         assertion.accept(actual, expected);
-    }
-
-    @SafeVarargs
-    public final void assertMatch(Iterable<T> actual, T... expected) {
-        assertMatch(actual, List.of(expected));
     }
 
     public void assertMatch(Iterable<T> actual, Iterable<T> expected) {

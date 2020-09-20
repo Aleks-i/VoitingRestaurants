@@ -9,6 +9,7 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.votingrestaurants.topjava20.model.User;
 import ru.votingrestaurants.topjava20.util.exception.NotFoundException;
+
 import static org.junit.Assert.assertThrows;
 import static ru.votingrestaurants.topjava20.UserTestData.*;
 
@@ -53,12 +54,21 @@ public class UserServiceTest {
 
     @Test
     public void get() {
-        User user = userService.getUser(USER_ID);
-        VOTE_MATCHER.assertMatch(user, USER);
+        VOTE_MATCHER.assertMatch(userService.getUser(USER_ID), USER);
     }
 
     @Test
     public void getNotFound() {
         assertThrows(NotFoundException.class, () -> userService.getUser(NOT_FOUND));
+    }
+
+    @Test
+    public void getByEmail() {
+        VOTE_MATCHER.assertMatch(userService.getByEmail(EMAIL), USER);
+    }
+
+    @Test
+    public void getByEmailNotFound() {
+        assertThrows(NotFoundException.class, () -> userService.getByEmail(EMAIL_NOT_FOUND));
     }
 }

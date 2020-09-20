@@ -20,7 +20,6 @@ public class DishRepositoryImpl implements DishRepository {
     private ProxyAdminRepository adminRepository;
 
     @Override
-    @Transactional
     public Dish save(Dish dish, int admin_id) {
         if (!dish.isNew() && getDish(dish.getId(), admin_id) == null) {
             return null;
@@ -30,7 +29,6 @@ public class DishRepositoryImpl implements DishRepository {
     }
 
     @Override
-    @Transactional
     public boolean delete(int id, int admin_id) {
         return proxyDishRepository.delete(id, admin_id) != 0;
     }

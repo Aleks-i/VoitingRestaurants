@@ -16,5 +16,4 @@ public interface ProxyVoteRepository extends JpaRepository<Vote, Integer> {
 
     @Query("SELECT v FROM Vote v WHERE v.id=:id AND v.user_id=:user_id AND v.localDate=:date")
     Vote getVote(@Param("id") int id, @Param("user_id") int user_id, @Param("date")LocalDate localDate);
-
 }

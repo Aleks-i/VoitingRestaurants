@@ -9,4 +9,6 @@ public interface UserRepository {
     boolean delete(int id);
 
     User getUser(int id);
+
+    User getByEmail(String email);
 }

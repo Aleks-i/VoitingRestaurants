@@ -14,4 +14,6 @@ public interface ProxyUserRepository extends JpaRepository<User, Integer> {
     @Query("DELETE FROM User u WHERE u.id=:id")
     @Modifying
     int delete(@Param("id") int id);
+
+    User getByEmail(String email);
 }

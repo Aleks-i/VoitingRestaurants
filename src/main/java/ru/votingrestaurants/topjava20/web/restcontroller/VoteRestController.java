@@ -3,13 +3,15 @@ package ru.votingrestaurants.topjava20.web.restcontroller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.votingrestaurants.topjava20.View;
 import ru.votingrestaurants.topjava20.model.Vote;
 import ru.votingrestaurants.topjava20.service.VoteService;
+import ru.votingrestaurants.topjava20.web.SecurityUtil;
 
 import java.net.URI;
 import java.util.List;
@@ -26,11 +28,12 @@ public class VoteRestController {
     @Autowired
     private VoteService voteService;
 
-    @PostMapping(value = "/{admin_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> create(@RequestBody Vote vote, @PathVariable int admin_id) {
-        LOG.info("create vote {} admin_id {}", vote, admin_id);
+    @PostMapping(value = "/create/{admin_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Vote> create(@Validated(View.Web.class) @RequestBody Vote vote, @PathVariable int admin_id) {
+        int userId = SecurityUtil.authUserId();
         checkNew(vote);
-        Vote createdVote = voteService.save(vote, authUserId(), admin_id);
+        LOG.info("create vote {} for user {}", vote, userId);
+        Vote createdVote = voteService.save(vote, userId, admin_id);
         URI ofNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL_VOTES + "/{id}")
                 .buildAndExpand(createdVote.getId()).toUri();

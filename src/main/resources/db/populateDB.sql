@@ -1,20 +1,33 @@
-DELETE FROM admins;
-DELETE FROM users;
+DELETE FROM admin_roles;
+DELETE FROM user_roles;
 DELETE FROM votes;
 DELETE FROM dishes;
+DELETE FROM users;
+DELETE FROM admins;
 
 ALTER SEQUENCE GLOBAL_SEQ RESTART WITH 100000;
 
-INSERT INTO admins (name, email, password)
-VALUES ('Admin0', 'admin0@yandex.ru', 'password0'),
-       ('Admin1', 'admin1@gmail.com', 'password1');
+INSERT INTO admins (name, email, password, role)
+VALUES ('Admin0', 'admin0@yandex.ru', '{noop}password0', 'ADMIN'),
+       ('Admin1', 'admin1@yandex.ru', '{noop}password1', 'ADMIN');
 
-INSERT INTO users (name, email, password)
-VALUES ('User0', 'user0@yandex.ru', 'password0'),
-       ('User1', 'user1@gmail.com', 'password1'),
-       ('User2', 'user2@gmail.com', 'password2'),
-       ('User3', 'user3@gmail.com', 'password3'),
-       ('User4', 'user4@gmail.com', 'password4');
+INSERT INTO users (name, email, password, role)
+VALUES ('User0', 'user0@yandex.ru', '{noop}password0', 'USER'),
+       ('User1', 'user1@gmail.com', '{noop}password1', 'USER'),
+       ('User2', 'user2@gmail.com', '{noop}password2', 'USER'),
+       ('User3', 'user3@gmail.com', '{noop}password3', 'USER'),
+       ('User4', 'user4@gmail.com', '{noop}password4', 'USER');
+
+INSERT INTO admin_roles (role, admin_id)
+VALUES ('ADMIN', 100000),
+       ('ADMIN', 100001);
+
+INSERT INTO user_roles (role, user_id)
+VALUES ('USER', 100002),
+       ('USER', 100003),
+       ('USER', 100004),
+       ('USER', 100005),
+       ('USER', 100006);
 
 INSERT INTO dishes (admin_id, name, price)
 VALUES (100000, 'пирог', 150.56),
