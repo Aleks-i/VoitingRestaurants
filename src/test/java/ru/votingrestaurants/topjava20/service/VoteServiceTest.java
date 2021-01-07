@@ -29,7 +29,7 @@ public class VoteServiceTest {
 
     @Test
     public void save() {
-        Vote created = voteService.save(getNewVoteToday(), USER_ID, ADMIN_ID);
+        Vote created = voteService.save(getNewVoteToday(), USER_ID, RESTAURANT_ID_1);
         int newId = created.getId();
         Vote newVote = getNewVoteToday();
         newVote.setId(newId);
@@ -40,8 +40,8 @@ public class VoteServiceTest {
 
     @Test
     public void saveVoteRepeatAfterEleven() {
-        Vote creatNew = voteService.save(getNewVoteToday(), USER_ID, ADMIN_ID);
-        assertThrows(NotFoundException.class, () -> voteService.save(getNewVoteAfterEleven(), USER_ID, ADMIN_ID_1));
+        Vote creatNew = voteService.save(getNewVoteToday(), USER_ID, RESTAURANT_ID_1);
+        assertThrows(NotFoundException.class, () -> voteService.save(getNewVoteAfterEleven(), USER_ID, RESTAURANT_ID_1));
     }
 
     @Test
@@ -51,8 +51,8 @@ public class VoteServiceTest {
     }
 
     @Test
-    public void getAllVotesOfAdmin() {
-        VOTE_MATCHER.assertMatch(voteService.getAllVotesOfAdmin(ADMIN_ID), VOTES_FOR_ADMIN);
+    public void getAllVotesOfRestaurant() {
+        VOTE_MATCHER.assertMatch(voteService.getAllVotesOfAdmin(RESTAURANT_ID_1), VOTES_FOR_ADMIN);
     }
 
     @Test

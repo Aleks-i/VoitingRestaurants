@@ -4,16 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "dishes")
-public class Dish extends AbstractBaseEntity {
-
-    @Size(min = 5, max = 20)
-    @Column(name = "name", nullable = false)
-    private String name;
+public class Dish extends AbstractNamedEntity {
 
     @Column(name = "price")
     @NotNull
@@ -24,9 +19,9 @@ public class Dish extends AbstractBaseEntity {
     private LocalDate localDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id", nullable = false)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonIgnore
-    private Admin admin;
+    private Restaurant restaurant;
 
     public Dish() {
     }
@@ -36,18 +31,9 @@ public class Dish extends AbstractBaseEntity {
     }
 
     public Dish(Integer id, String name, Double price) {
-        super(id);
-        this.name = name;
+        super(id, name);
         this.price = price;
         this.localDate = LocalDate.now();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Double getPrice() {
@@ -66,21 +52,20 @@ public class Dish extends AbstractBaseEntity {
         this.localDate = localDate;
     }
 
-    public Admin getAdmin() {
-        return admin;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     @Override
     public String toString() {
-        return "Dish{" +
-                ", id=" + id +
-                "name='" + name + '\'' +
+        return super.toString() +
                 ", price=" + price +
                 ", localDate=" + localDate +
+                ", restaurant=" + restaurant +
                 '}';
     }
 }

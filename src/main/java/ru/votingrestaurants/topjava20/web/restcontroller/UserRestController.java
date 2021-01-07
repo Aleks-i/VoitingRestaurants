@@ -20,7 +20,6 @@ import java.net.URI;
 
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.assureIdConsistent;
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNew;
-import static ru.votingrestaurants.topjava20.web.SecurityUtil.authUserId;
 
 @RestController
 @RequestMapping(value = UserRestController.REST_URL_USERS, produces = MediaType.APPLICATION_JSON_VALUE)

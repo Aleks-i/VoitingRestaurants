@@ -1,14 +1,10 @@
 package ru.votingrestaurants.topjava20.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.hibernate.Hibernate;
 import org.springframework.util.Assert;
 import ru.votingrestaurants.topjava20.HasId;
 
 import javax.persistence.*;
-
-import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
-import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
@@ -64,6 +60,6 @@ public abstract class AbstractBaseEntity implements HasId {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ":" + id;
+        return getClass().getSimpleName() + " {id='" + id + '\'';
     }
 }

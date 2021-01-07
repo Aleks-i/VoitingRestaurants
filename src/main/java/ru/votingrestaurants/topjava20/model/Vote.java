@@ -20,23 +20,23 @@ public class Vote extends AbstractBaseEntity {
     private LocalTime localTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id", nullable = false)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonIgnore
-    private Admin admin;
+    private Restaurant restaurant;
 
     @Column(name = "user_id")
     @NotNull
-    private Integer user_id;
+    private Integer userId;
 
-    public Vote(LocalDate localDate, LocalTime localTime, int user_id) {
-        this(null, localDate, localTime, user_id);
+    public Vote(LocalDate localDate, LocalTime localTime, int userId) {
+        this(null, localDate, localTime, userId);
     }
 
-    public Vote(Integer id, LocalDate localDate, LocalTime localTime, int user_id) {
+    public Vote(Integer id, LocalDate localDate, LocalTime localTime, int userId) {
         super(id);
         this.localDate = localDate;
         this.localTime = localTime;
-        this.user_id = user_id;
+        this.userId = userId;
     }
 
     public Vote() {
@@ -58,29 +58,29 @@ public class Vote extends AbstractBaseEntity {
         this.localTime = localTime;
     }
 
-    public Admin getAdmin() {
-        return admin;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     @Override
     public String toString() {
-        return "Vote{" +
+        return super.toString() +
                 "localDate=" + localDate +
                 ", localTime=" + localTime +
-                ", user_id=" + user_id +
-                ", id=" + id +
+                ", restaurant=" + restaurant +
+                ", user_id=" + userId +
                 '}';
     }
 }

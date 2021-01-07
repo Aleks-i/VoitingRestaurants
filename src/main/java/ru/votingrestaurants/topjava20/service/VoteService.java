@@ -15,22 +15,22 @@ public class VoteService {
     @Autowired
     private VoteRepository voteRepository;
 
-    public Vote save(Vote vote, int user_id, int admin_id) {
+    public Vote save(Vote vote, int userId, int restaurantId) {
         Assert.notNull(vote, "vote must not be null");
-        return checkNotFoundWithId(voteRepository.save(vote, user_id, admin_id), user_id);
+        return checkNotFoundWithId(voteRepository.save(vote, userId, restaurantId), userId);
     }
 
-    public void update(Vote vote, int user_id, int admin_id) {
+    public void update(Vote vote, int userId, int restaurantId) {
         Assert.notNull(vote, "user must be not null");
-        checkNotFoundWithId(voteRepository.save(vote, user_id, admin_id), vote.id());
+        checkNotFoundWithId(voteRepository.save(vote, userId, restaurantId), vote.id());
     }
 
-    public Vote getVote(int id, int user_id, LocalDate localDate) {
-        return checkNotFoundWithId(voteRepository.getVote(id, user_id, localDate), id);
+    public Vote getVote(int id, int userId, LocalDate localDate) {
+        return checkNotFoundWithId(voteRepository.getVote(id, userId, localDate), id);
     }
 
-    public List<Vote> getAllVotesOfAdmin(int admin_id) {
-        return voteRepository.getAllVotesOfAdmin(admin_id);
+    public List<Vote> getAllVotesOfAdmin(int restaurantId) {
+        return voteRepository.getAllVotesOfRestaurant(restaurantId);
     }
 
     public List<Vote> getAll() {

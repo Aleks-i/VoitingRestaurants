@@ -24,10 +24,10 @@ public class MainApplicationContext {
             UserService userService = appCtx.getBean(UserService.class);
             VoteService voteService = appCtx.getBean(VoteService.class);
 
-            dishService.create(new Dish(null, "NewDish", 220.45), 100000);
+            dishService.create(new Dish(null, "NewDish", 220.45), 100007);
             userService.create(new User(null, "NewUser", "newauser@mail.ru", "newpass", Role.USER));
             voteService.save(new Vote(LocalDate.now(),
-                    LocalTime.of(10, 30, 45), 100002), 100002, 100000);
+                    LocalTime.of(10, 30, 45), 100002), 100002, 100007);
         }
     }
 }

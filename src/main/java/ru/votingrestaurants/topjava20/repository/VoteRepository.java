@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface VoteRepository {
 
-    Vote save(Vote vote, int user_id, int admin_id);
+    Vote save(Vote vote, int userId, int restaurantId);
 
-    Vote getVote(int id, int user_id, LocalDate localDate);
+    Vote getVote(int id, int userId, LocalDate localDate);
 
-    List<Vote> getAllVotesOfAdmin(int admin_id);
+    List<Vote> getAllVotesOfRestaurant(int restaurantId);
 
     List<Vote> getAll();
 }

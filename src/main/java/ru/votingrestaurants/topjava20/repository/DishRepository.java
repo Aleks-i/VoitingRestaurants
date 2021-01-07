@@ -5,11 +5,11 @@ import java.util.List;
 
 public interface DishRepository {
 
-    Dish save(Dish dish, int admin_id);
+    Dish save(Dish dish, int restaurantId);
 
-    boolean delete(int id, int admin_id);
+    boolean delete(int id, int restaurantId);
 
-    Dish getDish(int id, int admin_id);
+    Dish getDish(int id, int restaurantId);
 
-    List<Dish> getAllForAdmin(int admin_id);
+    List<Dish> getAllForRestaurant(int restaurantId);
 }
