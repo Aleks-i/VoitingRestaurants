@@ -26,33 +26,39 @@ public class DishServiceTest {
 
     @Test
     public void create() {
-        Dish created = dishService.create(getNewDish(), RESTAURANT_ID_1);
+        Dish created = dishService.create(getNewDish(), USER_ID, RESTAURANT_ID_1);
         int newId = created.getId();
         Dish newDish = getNewDish();
         newDish.setId(newId);
         DISH_MATCHER.assertMatch(created, newDish);
-        DISH_MATCHER.assertMatch(dishService.getDish(newId, RESTAURANT_ID_1), newDish);
+        DISH_MATCHER.assertMatch(dishService.getDish(newId, USER_ID, RESTAURANT_ID_1), newDish);
+    }
+
+    @Test
+    public void update() {
+        dishService.update(getUpdated(), USER_ID, RESTAURANT_ID_1, DISHES_ID);
+        DISH_MATCHER.assertMatch(dishService.getDish(DISHES_ID, USER_ID, RESTAURANT_ID_1), getUpdated());
     }
 
     @Test
     public void delete() {
         dishService.delete(DISHES_ID, RESTAURANT_ID_1);
-        assertThrows(NotFoundException.class, () -> dishService.getDish(DISHES_ID, RESTAURANT_ID_1));
+        assertThrows(NotFoundException.class, () -> dishService.getDish(DISHES_ID, USER_ID, RESTAURANT_ID_1));
     }
 
     @Test
     public void deleteAdminNotFound() {
-        assertThrows(NotFoundException.class, () -> dishService.getDish(DISHES_ID, NOT_FOUND));
+        assertThrows(NotFoundException.class, () -> dishService.getDish(DISHES_ID, USER_ID, NOT_FOUND));
     }
 
     @Test
     public void deleteDishNotFound() {
-        assertThrows(NotFoundException.class, () -> dishService.getDish(NOT_FOUND, RESTAURANT_ID_1));
+        assertThrows(NotFoundException.class, () -> dishService.getDish(NOT_FOUND, USER_ID, RESTAURANT_ID_1));
     }
 
     @Test
     public void getDish() {
-        Dish actual = dishService.getDish(DISHES_ID, RESTAURANT_ID_1);
+        Dish actual = dishService.getDish(DISHES_ID, USER_ID, RESTAURANT_ID_1);
         DISH_MATCHER.assertMatch(actual, DISH1);
     }
 
@@ -63,6 +69,6 @@ public class DishServiceTest {
 
     @Test
     public void getAllAdminNotFound() {
-        assertThrows(NotFoundException.class, () -> dishService.getDish(NOT_FOUND, RESTAURANT_ID_1));
+        assertThrows(NotFoundException.class, () -> dishService.getDish(NOT_FOUND, USER_ID, RESTAURANT_ID_1));
     }
 }

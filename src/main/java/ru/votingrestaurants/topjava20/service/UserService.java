@@ -10,6 +10,8 @@ import org.springframework.util.Assert;
 import ru.votingrestaurants.topjava20.AuthorizedUser;
 import ru.votingrestaurants.topjava20.model.User;
 import ru.votingrestaurants.topjava20.repository.UserRepository;
+import ru.votingrestaurants.topjava20.to.UserTo;
+import ru.votingrestaurants.topjava20.util.UserUtil;
 
 import static ru.votingrestaurants.topjava20.util.UserUtil.prepareToSave;
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNotFound;
@@ -18,10 +20,10 @@ import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNotFoundWi
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
     public final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -30,6 +32,12 @@ public class UserService implements UserDetailsService {
     public User create(User user) {
         Assert.notNull(user, "user must be not null");
         return prepareAndSave(user);
+    }
+
+    public void update(UserTo userTo) {
+        Assert.notNull(userTo, "user must not be null");
+        User user = getUser(userTo.id());
+        prepareAndSave(UserUtil.updateFromTo(user, userTo));
     }
 
     public void update(User user) {

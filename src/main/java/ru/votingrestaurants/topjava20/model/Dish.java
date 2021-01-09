@@ -23,13 +23,18 @@ public class Dish extends AbstractNamedEntity {
     @JsonIgnore
     private Restaurant restaurant;
 
+    @Column(name = "user_id")
+    @NotNull
+    private Integer userId;
+
     public Dish() {
     }
 
-    public Dish(Integer id, String name, BigDecimal price) {
+    public Dish(Integer id, String name, BigDecimal price, int userId) {
         super(id, name);
         this.price = price;
         this.localDate = LocalDate.now();
+        this.userId = userId;
     }
 
     public BigDecimal getPrice() {
@@ -56,12 +61,21 @@ public class Dish extends AbstractNamedEntity {
         this.restaurant = restaurant;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return super.toString() +
                 ", price=" + price +
                 ", localDate=" + localDate +
                 ", restaurant=" + restaurant +
+                ", userId=" + userId +
                 '}';
     }
 }

@@ -1,6 +1,5 @@
 package ru.votingrestaurants.topjava20.service;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import ru.votingrestaurants.topjava20.util.exception.NotFoundException;
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertThrows;
-import static ru.votingrestaurants.topjava20.UserTestData.NOT_FOUND;
 import static ru.votingrestaurants.topjava20.VoteTestData.*;
 
 @ContextConfiguration({
@@ -39,18 +37,16 @@ public class VoteServiceTest {
     }
 
     @Test
-    public void saveVoteRepeatAfterEleven() {
+    public void updateVoteAfterEleven() {
         Vote creatNew = voteService.save(getNewVoteToday(), USER_ID, RESTAURANT_ID_1);
-        assertThrows(NotFoundException.class, () -> voteService.save(getNewVoteAfterEleven(), USER_ID, RESTAURANT_ID_1));
+        assertThrows(NotFoundException.class, () -> voteService.update(getUpatedVoteAfterEleven(), USER_ID, RESTAURANT_ID_1, NEW_VOTE_ID));
     }
 
     @Test
-    @Ignore
-    public void saveVoteRepeatBeforeEleven() {
+    public void updateVoteBeforeEleven() {
         Vote creatNew = voteService.save(getNewVoteToday(), USER_ID, RESTAURANT_ID_1);
-        Vote creatRepeatVoteBeforeEleven = voteService.save(getNewVoteBeforeEleven(), USER_ID, RESTAURANT_ID_1);
-//        VOTE_MATCHER.assertMatch(created, newVote);
-        VOTE_MATCHER.assertMatch(voteService.getVote(creatNew.getId(), USER_ID, LocalDate.now()), getNewVoteBeforeEleven());
+        voteService.update(getUpdatedVoteBeforeEleven(), USER_ID, RESTAURANT_ID_1, NEW_VOTE_ID);
+        VOTE_MATCHER.assertMatch(voteService.getVote(creatNew.getId(), USER_ID, LocalDate.now()), getUpdatedVoteBeforeEleven());
     }
 
     @Test

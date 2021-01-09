@@ -3,6 +3,7 @@ package ru.votingrestaurants.topjava20.web.restcontroller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -37,6 +38,14 @@ public class VoteRestController {
                 .path(REST_URL_VOTES + "/{id}")
                 .buildAndExpand(createdVote.getId()).toUri();
         return ResponseEntity.created(ofNewResource).body(createdVote);
+    }
+
+    @PutMapping(value = "/{restaurantId}/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Validated(View.Web.class) @RequestBody Vote vote, @PathVariable int id, @PathVariable int restaurantId) {
+        int userId = SecurityUtil.authUserId();
+        LOG.info("update vote id {} for user id {}", id, userId);
+        voteService.update(vote, userId, restaurantId, id);
     }
 
     @GetMapping("/{restaurantId}")

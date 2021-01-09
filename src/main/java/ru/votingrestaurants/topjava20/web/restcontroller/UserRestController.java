@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.votingrestaurants.topjava20.AuthorizedUser;
+import ru.votingrestaurants.topjava20.View;
 import ru.votingrestaurants.topjava20.model.User;
 import ru.votingrestaurants.topjava20.service.UserService;
 import ru.votingrestaurants.topjava20.to.UserTo;
@@ -36,7 +38,7 @@ public class UserRestController {
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<User> createUser(@Valid @RequestBody UserTo userTo) {
+    public ResponseEntity<User> createUser(@Validated(View.Web.class) @RequestBody UserTo userTo) {
         User createdUser = create(userTo);
         URI ofNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL_USERS).build().toUri();
@@ -45,21 +47,16 @@ public class UserRestController {
 
     public User create(UserTo userTo) {
         LOG.info("create from to {}", userTo);
-        return create(UserUtil.createNewFromTo(userTo));
-    }
-
-    public User create(User user) {
-        LOG.info("create {}", user);
-        checkNew(user);
-        return userService.create(user);
+        checkNew(userTo);
+        return userService.create(UserUtil.createNewFromTo(userTo));
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody User user, @AuthenticationPrincipal AuthorizedUser authUser) {
-        LOG.info("update {} with id={}", user, authUser.getId());
-        assureIdConsistent(user, authUser.getId());
-        userService.update(user);
+    public void update(@RequestBody UserTo userTo, @AuthenticationPrincipal AuthorizedUser authUser) {
+        LOG.info("update {} with id={}", userTo, authUser.getId());
+        assureIdConsistent(userTo, authUser.getId());
+        userService.update(userTo);
     }
 
     @DeleteMapping("/profile/delete")
