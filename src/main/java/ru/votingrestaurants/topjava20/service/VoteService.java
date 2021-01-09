@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.votingrestaurants.topjava20.model.Vote;
 import ru.votingrestaurants.topjava20.repository.VoteRepository;
+
 import java.time.LocalDate;
 import java.util.List;
+
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNotFoundWithId;
 
 @Service

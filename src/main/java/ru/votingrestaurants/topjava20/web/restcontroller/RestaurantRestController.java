@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping(value = RestaurantRestController.REST_URL_RESTAURANTS, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantRestController {
     private static final Logger LOG = LoggerFactory.getLogger(RestaurantRestController.class);
-    public static final String REST_URL_RESTAURANTS = "/rest/restaurants";
+    public static final String REST_URL_RESTAURANTS = "/restaurants";
 
     @Autowired
     private final RestaurantService restaurantService;
@@ -26,10 +26,10 @@ public class RestaurantRestController {
         this.restaurantService = restaurantService;
     }
 
-    @GetMapping("/{id}")
-    public Restaurant getRestaurant(@PathVariable int id) {
-        LOG.info("get admin with id{}", id);
-        return restaurantService.getRestaurant(id);
+    @GetMapping("/{restaurantId}")
+    public Restaurant getRestaurant(@PathVariable int restaurantId) {
+        LOG.info("get restaurant with id{}", restaurantId);
+        return restaurantService.getRestaurant(restaurantId);
     }
 
     @GetMapping

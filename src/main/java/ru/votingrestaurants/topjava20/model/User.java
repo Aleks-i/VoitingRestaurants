@@ -4,13 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.EnumSet;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -18,12 +17,13 @@ import java.util.Set;
 public class User extends AbstractNamedEntity {
 
     @Size(min = 4, max = 20)
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
+    @Email
     protected String email;
 
     @Column(name = "password", nullable = false)
     @NotBlank
-    @Size(min = 3, max = 21)
+    @Size(min = 3, max = 51)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected String password;
 
@@ -44,16 +44,19 @@ public class User extends AbstractNamedEntity {
         this(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getRoles(), user.isEnabled());
     }
 
-    public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password, EnumSet.of(role, roles), true);
-    }
-
-    public User(Integer id, String name, String email, String password, Collection<Role> roles, boolean enabled) {
+    public User(Integer id, String name, String email, String password, Set<Role> roles, boolean enabled) {
         super(id, name);
         this.email = email;
         this.password = password;
         this.enabled = enabled;
         setRoles(roles);
+    }
+
+    public User(Integer id, String name, String email, String password, Role role) {
+        super(id, name);
+        this.email = email;
+        this.password = password;
+        this.roles = Collections.singleton(role);
     }
 
     public String getEmail() {
@@ -86,10 +89,6 @@ public class User extends AbstractNamedEntity {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
     @Override

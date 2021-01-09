@@ -1,6 +1,7 @@
 package ru.votingrestaurants.topjava20.repository;
 
 import ru.votingrestaurants.topjava20.model.Vote;
+
 import java.time.LocalDate;
 import java.util.List;
 

@@ -13,8 +13,6 @@ public class VoteTestData {
     public static final int START_SEQ = 100000;
     public static final int VOTE_ID = START_SEQ + 15;
     public static final int USER_ID = START_SEQ + 2;
-    public static final int ADMIN_ID = START_SEQ;
-    public static final int ADMIN_ID_1 = START_SEQ + 1;
     public static final int RESTAURANT_ID_1 = START_SEQ + 7;
     public static final int RESTAURANT_ID_2 = START_SEQ + 8;
 
@@ -49,9 +47,15 @@ public class VoteTestData {
 
     public static Vote getNewVoteAfterEleven() {
         Vote newVote = new Vote(VOTE_ID, LocalDate.now(),
-                LocalTime.of(10, 30, 45), USER_ID);
+                LocalTime.of(15, 30, 45), USER_ID);
         newVote.setRestaurant(RESTAURANT_2);
         return newVote;
     }
 
+    public static Vote getNewVoteBeforeEleven() {
+        Vote newVote = new Vote(VOTE_ID, LocalDate.now(),
+                LocalTime.of(10, 50, 45), USER_ID);
+        newVote.setRestaurant(RESTAURANT_2);
+        return newVote;
+    }
 }

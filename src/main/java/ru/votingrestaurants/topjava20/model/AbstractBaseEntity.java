@@ -1,5 +1,6 @@
 package ru.votingrestaurants.topjava20.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.Hibernate;
 import org.springframework.util.Assert;
 import ru.votingrestaurants.topjava20.HasId;
@@ -33,6 +34,7 @@ public abstract class AbstractBaseEntity implements HasId {
         this.id = id;
     }
 
+    @JsonIgnore
     public boolean isNew() {
         return getId() == null;
     }

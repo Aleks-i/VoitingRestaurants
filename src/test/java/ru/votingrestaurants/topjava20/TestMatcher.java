@@ -19,12 +19,6 @@ public class TestMatcher<T> {
         return new TestMatcher<>(clazz, assertion, iterableAssertion);
     }
 
-    public static <T> TestMatcher<T> usingEqualsAssertions(Class<T> clazz) {
-        return usingAssertions(clazz,
-                (a, e) -> assertThat(a).isEqualTo(e),
-                (a, e) -> assertThat(a).isEqualTo(e));
-    }
-
     public static <T> TestMatcher<T> usingFieldsWithIgnoringAssertions(Class<T> clazz, String... fieldsToIgnore) {
         return usingAssertions(clazz,
                 (a, e) -> assertThat(a).isEqualToIgnoringGivenFields(e, fieldsToIgnore),

@@ -27,7 +27,7 @@ public class UserServiceTest {
     @Test
     public void create() {
         User created = userService.create(getNewUser());
-        int newId =created.getId();
+        int newId = created.getId();
         User newUser = getNewUser();
         newUser.setId(newId);
         VOTE_MATCHER.assertMatch(created, newUser);

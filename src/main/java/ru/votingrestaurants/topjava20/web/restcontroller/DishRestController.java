@@ -15,6 +15,7 @@ import ru.votingrestaurants.topjava20.service.DishService;
 import ru.votingrestaurants.topjava20.web.SecurityUtil;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNew;
@@ -23,7 +24,7 @@ import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNew;
 @RequestMapping(value = DishRestController.REST_URL_DINNERS, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishRestController {
     private static final Logger LOG = LoggerFactory.getLogger(DishRestController.class);
-    public static final String REST_URL_DINNERS = "/rest/restaurants/dishes";
+    public static final String REST_URL_DINNERS = "/restaurants/dishes";
 
     @Autowired
     private final DishService dishService;
@@ -32,27 +33,28 @@ public class DishRestController {
         this.dishService = dishService;
     }
 
-    @PostMapping(value = "/admin/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> save(@Validated(View.Web.class) @RequestBody Dish dish) {
+    @PostMapping(value = "/{restaurantId}/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Dish> save(@Validated(View.Web.class) @RequestBody Dish dish, @PathVariable int restaurantId) {
         int userId = SecurityUtil.authUserId();
         checkNew(dish);
+        dish.setLocalDate(LocalDate.now());
         LOG.info("save {} for admin {}", dish, userId);
-        Dish createdDis = dishService.create(dish, userId);
+        Dish createdDis = dishService.create(dish, restaurantId);
         URI ofNewRecourse = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL_DINNERS + "/{id}")
                 .buildAndExpand(createdDis.getId()).toUri();
         return ResponseEntity.created(ofNewRecourse).body(createdDis);
     }
 
-    @DeleteMapping("/admin/delete/{id}")
+    @DeleteMapping("/{restaurantId}/delete/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public void delete(@PathVariable int id, @PathVariable int restaurantId) {
         int userId = SecurityUtil.authUserId();
-        LOG.info("delete dish {} for admin {}", id, userId);
-        dishService.delete(id, userId);
+        LOG.info("delete dish {} for restaurant {}", id, restaurantId);
+        dishService.delete(id, restaurantId);
     }
 
-    @GetMapping("/{admin_id}")
+    @GetMapping("/{restaurantId}")
     public List<Dish> getAllForRestaurant(@PathVariable int restaurantId) {
         LOG.info("getAll for restaurant {}", restaurantId);
         return dishService.getAllForRestaurant(restaurantId);

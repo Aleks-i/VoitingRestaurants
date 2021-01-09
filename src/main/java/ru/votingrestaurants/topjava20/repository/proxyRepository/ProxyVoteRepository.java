@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.votingrestaurants.topjava20.model.Vote;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface ProxyVoteRepository extends JpaRepository<Vote, Integer> {
     List<Vote> getAllVotesOfRestaurant(@Param("restaurant_id") int restaurant_id);
 
     @Query("SELECT v FROM Vote v WHERE v.id=:id AND v.userId=:user_id AND v.localDate=:date")
-    Vote getVote(@Param("id") int id, @Param("user_id") int user_id, @Param("date")LocalDate localDate);
+    Vote getVote(@Param("id") int id, @Param("user_id") int user_id, @Param("date") LocalDate localDate);
 }

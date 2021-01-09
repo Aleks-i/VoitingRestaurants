@@ -8,6 +8,7 @@ import ru.votingrestaurants.topjava20.repository.VoteRepository;
 import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyRestaurantRepository;
 import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyUserRepository;
 import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyVoteRepository;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;

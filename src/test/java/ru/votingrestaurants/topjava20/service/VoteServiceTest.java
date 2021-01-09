@@ -1,5 +1,6 @@
 package ru.votingrestaurants.topjava20.service;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,6 @@ public class VoteServiceTest {
         newVote.setId(newId);
         VOTE_MATCHER.assertMatch(created, newVote);
         VOTE_MATCHER.assertMatch(voteService.getVote(newId, USER_ID, LocalDate.now()), newVote);
-
     }
 
     @Test
@@ -45,8 +45,17 @@ public class VoteServiceTest {
     }
 
     @Test
+    @Ignore
+    public void saveVoteRepeatBeforeEleven() {
+        Vote creatNew = voteService.save(getNewVoteToday(), USER_ID, RESTAURANT_ID_1);
+        Vote creatRepeatVoteBeforeEleven = voteService.save(getNewVoteBeforeEleven(), USER_ID, RESTAURANT_ID_1);
+//        VOTE_MATCHER.assertMatch(created, newVote);
+        VOTE_MATCHER.assertMatch(voteService.getVote(creatNew.getId(), USER_ID, LocalDate.now()), getNewVoteBeforeEleven());
+    }
+
+    @Test
     public void getVote() {
-        Vote vote = voteService.getVote(VOTE_ID, USER_ID, LocalDate.of(2020,8, 25));
+        Vote vote = voteService.getVote(VOTE_ID, USER_ID, LocalDate.of(2020, 8, 25));
         VOTE_MATCHER.assertMatch(vote, VOTE1);
     }
 

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.votingrestaurants.topjava20.model.Dish;
 import ru.votingrestaurants.topjava20.repository.DishRepository;
-import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyRestaurantRepository;
 import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyDishRepository;
+import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyRestaurantRepository;
 
 import java.util.List;
 

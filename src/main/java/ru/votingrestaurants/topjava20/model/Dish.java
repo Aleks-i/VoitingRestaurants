@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -12,10 +13,9 @@ public class Dish extends AbstractNamedEntity {
 
     @Column(name = "price")
     @NotNull
-    private Double price;
+    private BigDecimal price;
 
-    @Column(name = "date")
-    @NotNull
+    @Column(name = "date", nullable = false, columnDefinition = "DATE DEFAULT now()")
     private LocalDate localDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,21 +26,17 @@ public class Dish extends AbstractNamedEntity {
     public Dish() {
     }
 
-    public Dish(String name, Double price) {
-        this(null, name, price);
-    }
-
-    public Dish(Integer id, String name, Double price) {
+    public Dish(Integer id, String name, BigDecimal price) {
         super(id, name);
         this.price = price;
         this.localDate = LocalDate.now();
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

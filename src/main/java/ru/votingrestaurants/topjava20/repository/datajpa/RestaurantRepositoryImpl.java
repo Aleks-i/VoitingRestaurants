@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public class RestaurantRepositoryImpl implements RestaurantRepository {
-   private static final Sort SORT_NAME_ID = Sort.by(Sort.Direction.ASC, "name", "id");
+    private static final Sort SORT_NAME_ID = Sort.by(Sort.Direction.ASC, "name", "id");
 
     @Autowired
     ProxyRestaurantRepository proxyRestaurantRepository;

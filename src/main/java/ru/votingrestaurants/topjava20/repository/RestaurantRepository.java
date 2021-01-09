@@ -1,6 +1,7 @@
 package ru.votingrestaurants.topjava20.repository;
 
 import ru.votingrestaurants.topjava20.model.Restaurant;
+
 import java.util.List;
 
 public interface RestaurantRepository {

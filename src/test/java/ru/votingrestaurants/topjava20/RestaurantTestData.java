@@ -1,8 +1,6 @@
 package ru.votingrestaurants.topjava20;
 
 import ru.votingrestaurants.topjava20.model.Restaurant;
-import ru.votingrestaurants.topjava20.model.Role;
-import ru.votingrestaurants.topjava20.model.User;
 
 import java.util.List;
 

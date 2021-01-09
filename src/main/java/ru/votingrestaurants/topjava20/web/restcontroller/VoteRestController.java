@@ -17,38 +17,37 @@ import java.net.URI;
 import java.util.List;
 
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNew;
-import static ru.votingrestaurants.topjava20.web.SecurityUtil.authUserId;
 
 @RestController
 @RequestMapping(value = VoteRestController.REST_URL_VOTES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteRestController {
     private static final Logger LOG = LoggerFactory.getLogger(VoteRestController.class);
-    public static final String REST_URL_VOTES = "/rest/admins/votes";
+    public static final String REST_URL_VOTES = "/restaurants/votes";
 
     @Autowired
     private VoteService voteService;
 
-    @PostMapping(value = "/create/{admin_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> create(@Validated(View.Web.class) @RequestBody Vote vote, @PathVariable int admin_id) {
+    @PostMapping(value = "/{restaurantId}/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Vote> create(@Validated(View.Web.class) @RequestBody Vote vote, @PathVariable int restaurantId) {
         int userId = SecurityUtil.authUserId();
         checkNew(vote);
-        LOG.info("create vote {} for user {}", vote, userId);
-        Vote createdVote = voteService.save(vote, userId, admin_id);
+        LOG.info("create vote {} for user id {}", vote, userId);
+        Vote createdVote = voteService.save(vote, userId, restaurantId);
         URI ofNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL_VOTES + "/{id}")
                 .buildAndExpand(createdVote.getId()).toUri();
         return ResponseEntity.created(ofNewResource).body(createdVote);
     }
 
-    @GetMapping("/{admin_id}")
-    List<Vote> getAllVotesOfAdmin(@PathVariable int admin_id) {
-        LOG.info("getAllVotesOfAdmin admin_id {}",admin_id);
-        return voteService.getAllVotesOfAdmin(admin_id);
+    @GetMapping("/{restaurantId}")
+    List<Vote> getAllVotesOfRestaurnat(@PathVariable int restaurantId) {
+        LOG.info("getAllVotesOfRestaurant restaurant id {}", restaurantId);
+        return voteService.getAllVotesOfAdmin(restaurantId);
     }
 
-    @GetMapping
+    @GetMapping()
     public List<Vote> getAll() {
-        LOG.info("getAllVoteOfAdmins");
+        LOG.info("getAllVote");
         return voteService.getAll();
     }
 }
