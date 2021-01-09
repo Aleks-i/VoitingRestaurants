@@ -20,45 +20,45 @@ Environment variable for logging: VOTE_RESTAURANTS
 
 Use curl for test:
 
-####                AdminRestController
+####                RestaurantRestController
 
-#### get All Admins
-curl -s http://localhost:8080/votingrestaurants/rest/admins
+#### get All Restaurants
+`curl -s http://localhost:8080/votingrestaurants/restaurants`
 
-#### get Admins 100000
-curl -s http://localhost:8080/votingrestaurants/rest/admins/100000
+#### get Restaurant 100007
+`curl -s http://localhost:8080/votingrestaurants/restaurants/100007`
 
 
 ####                DishRestController
 
-#### get All Dishes For Admin 100000
-curl -s http://localhost:8080/votingrestaurants/rest/admins/dishes/100000
+#### get All Dishes For Restaurant 100007
+`curl -s http://localhost:8080/votingrestaurants/restaurants/dishes/100007`
 
-#### create Dishes For Admin 100000 (!!! HTTP Status 400 – Bad Request)
-curl -s -X POST -d '{"name":"новая еда","price":"250"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/rest/admins/dishes/create --user admin0@yandex.ru:password0
+#### create Dishes For Restaurant 10007 ()
+`curl -s -X POST -d '{"name":"новая еда","price":"250"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/restaurants/dishes/100007/create --user admin0@yandex.ru:password0`
 
-#### delete Dishes 100007 For Admin 100000
-curl -s -X DELETE http://localhost:8080/votingrestaurants/rest/admins/dishes/delete/100007 --user admin0@yandex.ru:password0
+#### delete Dishes 100009 For Restaurant 100007
+`curl -s -X DELETE http://localhost:8080/votingrestaurants/restaurants/dishes/100007/delete/100009 --user admin0@yandex.ru:password0`
 
 
 ####                UserRestController
 
-#### delete Auth Users (!!! HTTP Status 500 – Internal Server Error)
-curl -s -X DELETE http://localhost:8080/votingrestaurants/rest/users/profile/delete --user user0@yandex.ru:password0
+#### delete Auth Users
+`curl -s -X DELETE http://localhost:8080/votingrestaurants/users/profile/delete --user admin0@yandex.ru:password0`
 
-#### register Users (!!! HTTP Status 500 – Internal Server Error)
-curl -s -i -X POST -d '{"name":"New User","email":"testuser@mail.ru","password":"testpassword"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/rest/users/register
+#### register Users (!!! HTTP Status 500 – Internal Server Error ConstraintViolationImpl{interpolatedMessage='размер должен находиться в диапазоне от 3 до 51', propertyPath=password)
+`curl -s -i -X POST -d '{"name":"New User","email":"testuser@mail.ru","password":"testpassword"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/users/register`
 
-#### update User 100002 (!!! HTTP Status 415 – Unsupported Media Type)
-curl -s -X PUT -d '{"name":"Update User","email":"updateuser@mail.ru","password":"updatepassword"}' -H 'Content-Type: application/json' http://localhost:8080/votingrestaurants/rest/users --user user0@yandex.ru:password0
+#### update User 100002 (!!! HTTP Status 500 – Internal Server Error ConstraintViolationImpl{interpolatedMessage='размер должен находиться в диапазоне от 3 до 51', propertyPath=password)
+`curl -s -X PUT -d '{"name":"Update User","email":"updateuser@mail.ru","password":"updatepassword","roles":["USER"]}' -H 'Content-Type: application/json' http://localhost:8080/votingrestaurants/users --user user0@yandex.ru:password0`
 
 ####                VoteRestController
 
 #### get All Vote
-curl -s http://localhost:8080/votingrestaurants/rest/admins/votes
+`curl -s http://localhost:8080/votingrestaurants/restaurants/votes`
 
-#### get All Vote For Admin 100000
-curl -s http://localhost:8080/votingrestaurants/rest/admins/votes/100000
+#### get All Vote For Restaurants 100007
+`curl -s http://localhost:8080/votingrestaurants/restaurants/votes/100007`
 
-#### create Vote User 100002 Admin 100000 (!!! HTTP Status 500 – Internal Server Error)
-curl -s -X POST -d '{"localDate":"2020-09-20","localTime":"10:00:00","user_id":100002}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/rest/admins/votes/100000 --user user0@yandex.ru:password0
+#### create Vote User 100002 Restaurant 100007 (the date in the body should be today)
+`curl -s -X POST -d '{"localDate":"2021-01-09","localTime":"10:30:00","userId":100002}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/restaurants/votes/100007/create --user user0@yandex.ru:password0`

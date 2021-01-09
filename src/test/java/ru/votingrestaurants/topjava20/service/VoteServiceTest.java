@@ -1,5 +1,6 @@
 package ru.votingrestaurants.topjava20.service;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,30 +30,38 @@ public class VoteServiceTest {
 
     @Test
     public void save() {
-        Vote created = voteService.save(getNewVoteToday(), USER_ID, ADMIN_ID);
+        Vote created = voteService.save(getNewVoteToday(), USER_ID, RESTAURANT_ID_1);
         int newId = created.getId();
         Vote newVote = getNewVoteToday();
         newVote.setId(newId);
         VOTE_MATCHER.assertMatch(created, newVote);
         VOTE_MATCHER.assertMatch(voteService.getVote(newId, USER_ID, LocalDate.now()), newVote);
-
     }
 
     @Test
     public void saveVoteRepeatAfterEleven() {
-        Vote creatNew = voteService.save(getNewVoteToday(), USER_ID, ADMIN_ID);
-        assertThrows(NotFoundException.class, () -> voteService.save(getNewVoteAfterEleven(), USER_ID, ADMIN_ID_1));
+        Vote creatNew = voteService.save(getNewVoteToday(), USER_ID, RESTAURANT_ID_1);
+        assertThrows(NotFoundException.class, () -> voteService.save(getNewVoteAfterEleven(), USER_ID, RESTAURANT_ID_1));
+    }
+
+    @Test
+    @Ignore
+    public void saveVoteRepeatBeforeEleven() {
+        Vote creatNew = voteService.save(getNewVoteToday(), USER_ID, RESTAURANT_ID_1);
+        Vote creatRepeatVoteBeforeEleven = voteService.save(getNewVoteBeforeEleven(), USER_ID, RESTAURANT_ID_1);
+//        VOTE_MATCHER.assertMatch(created, newVote);
+        VOTE_MATCHER.assertMatch(voteService.getVote(creatNew.getId(), USER_ID, LocalDate.now()), getNewVoteBeforeEleven());
     }
 
     @Test
     public void getVote() {
-        Vote vote = voteService.getVote(VOTE_ID, USER_ID, LocalDate.of(2020,8, 25));
+        Vote vote = voteService.getVote(VOTE_ID, USER_ID, LocalDate.of(2020, 8, 25));
         VOTE_MATCHER.assertMatch(vote, VOTE1);
     }
 
     @Test
-    public void getAllVotesOfAdmin() {
-        VOTE_MATCHER.assertMatch(voteService.getAllVotesOfAdmin(ADMIN_ID), VOTES_FOR_ADMIN);
+    public void getAllVotesOfRestaurant() {
+        VOTE_MATCHER.assertMatch(voteService.getAllVotesOfAdmin(RESTAURANT_ID_1), VOTES_FOR_ADMIN);
     }
 
     @Test

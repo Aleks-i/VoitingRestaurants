@@ -1,19 +1,15 @@
 package ru.votingrestaurants.topjava20.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.votingrestaurants.topjava20.AuthorizedUser;
 import ru.votingrestaurants.topjava20.model.User;
 import ru.votingrestaurants.topjava20.repository.UserRepository;
-import ru.votingrestaurants.topjava20.to.UserTo;
-import ru.votingrestaurants.topjava20.util.UserUtil;
 
 import static ru.votingrestaurants.topjava20.util.UserUtil.prepareToSave;
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNotFound;

@@ -4,57 +4,39 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "dishes")
-public class Dish extends AbstractBaseEntity {
-
-    @Size(min = 5, max = 20)
-    @Column(name = "name", nullable = false)
-    private String name;
+public class Dish extends AbstractNamedEntity {
 
     @Column(name = "price")
     @NotNull
-    private Double price;
+    private BigDecimal price;
 
-    @Column(name = "date")
-    @NotNull
+    @Column(name = "date", nullable = false, columnDefinition = "DATE DEFAULT now()")
     private LocalDate localDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id", nullable = false)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonIgnore
-    private Admin admin;
+    private Restaurant restaurant;
 
     public Dish() {
     }
 
-    public Dish(String name, Double price) {
-        this(null, name, price);
-    }
-
-    public Dish(Integer id, String name, Double price) {
-        super(id);
-        this.name = name;
+    public Dish(Integer id, String name, BigDecimal price) {
+        super(id, name);
         this.price = price;
         this.localDate = LocalDate.now();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -66,21 +48,20 @@ public class Dish extends AbstractBaseEntity {
         this.localDate = localDate;
     }
 
-    public Admin getAdmin() {
-        return admin;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     @Override
     public String toString() {
-        return "Dish{" +
-                ", id=" + id +
-                "name='" + name + '\'' +
+        return super.toString() +
                 ", price=" + price +
                 ", localDate=" + localDate +
+                ", restaurant=" + restaurant +
                 '}';
     }
 }

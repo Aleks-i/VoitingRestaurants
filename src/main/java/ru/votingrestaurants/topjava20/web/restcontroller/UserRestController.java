@@ -20,13 +20,12 @@ import java.net.URI;
 
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.assureIdConsistent;
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNew;
-import static ru.votingrestaurants.topjava20.web.SecurityUtil.authUserId;
 
 @RestController
 @RequestMapping(value = UserRestController.REST_URL_USERS, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRestController {
     private static final Logger LOG = LoggerFactory.getLogger(UserRestController.class);
-    public static final String REST_URL_USERS = "/rest/users";
+    public static final String REST_URL_USERS = "/users";
 
     @Autowired
     private final UserService userService;

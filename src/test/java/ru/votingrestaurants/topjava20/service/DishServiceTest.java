@@ -9,6 +9,7 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.votingrestaurants.topjava20.model.Dish;
 import ru.votingrestaurants.topjava20.util.exception.NotFoundException;
+
 import static org.junit.Assert.assertThrows;
 import static ru.votingrestaurants.topjava20.DishesTestData.*;
 
@@ -25,18 +26,18 @@ public class DishServiceTest {
 
     @Test
     public void create() {
-        Dish created = dishService.create(getNewDish(), ADMIN_ID);
+        Dish created = dishService.create(getNewDish(), RESTAURANT_ID_1);
         int newId = created.getId();
         Dish newDish = getNewDish();
         newDish.setId(newId);
-        VOTE_MATCHER.assertMatch(created, newDish);
-        VOTE_MATCHER.assertMatch(dishService.getDish(newId, ADMIN_ID), newDish);
+        DISH_MATCHER.assertMatch(created, newDish);
+        DISH_MATCHER.assertMatch(dishService.getDish(newId, RESTAURANT_ID_1), newDish);
     }
 
     @Test
     public void delete() {
-        dishService.delete(DISHES_ID,ADMIN_ID);
-        assertThrows(NotFoundException.class, () -> dishService.getDish(DISHES_ID, ADMIN_ID));
+        dishService.delete(DISHES_ID, RESTAURANT_ID_1);
+        assertThrows(NotFoundException.class, () -> dishService.getDish(DISHES_ID, RESTAURANT_ID_1));
     }
 
     @Test
@@ -46,22 +47,22 @@ public class DishServiceTest {
 
     @Test
     public void deleteDishNotFound() {
-        assertThrows(NotFoundException.class, () -> dishService.getDish(NOT_FOUND, ADMIN_ID));
+        assertThrows(NotFoundException.class, () -> dishService.getDish(NOT_FOUND, RESTAURANT_ID_1));
     }
 
     @Test
     public void getDish() {
-        Dish actual = dishService.getDish(DISHES_ID, 100000);
-        VOTE_MATCHER.assertMatch(actual, DISH1);
+        Dish actual = dishService.getDish(DISHES_ID, RESTAURANT_ID_1);
+        DISH_MATCHER.assertMatch(actual, DISH1);
     }
 
     @Test
-    public void getAll() {
-        VOTE_MATCHER.assertMatch(dishService.getAllForAdmin(ADMIN_ID), DISHES);
+    public void getAllForRestaurant() {
+        DISH_MATCHER.assertMatch(dishService.getAllForRestaurant(RESTAURANT_ID_1), DISHES_FOR_RESTAURANT_1);
     }
 
     @Test
     public void getAllAdminNotFound() {
-        assertThrows(NotFoundException.class, () -> dishService.getDish(NOT_FOUND, ADMIN_ID));
+        assertThrows(NotFoundException.class, () -> dishService.getDish(NOT_FOUND, RESTAURANT_ID_1));
     }
 }

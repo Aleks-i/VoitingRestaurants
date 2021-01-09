@@ -5,9 +5,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.votingrestaurants.topjava20.model.Vote;
 import ru.votingrestaurants.topjava20.repository.VoteRepository;
-import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyAdminRepository;
+import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyRestaurantRepository;
 import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyUserRepository;
 import ru.votingrestaurants.topjava20.repository.proxyRepository.ProxyVoteRepository;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -22,13 +23,13 @@ public class VoteRepositoryImpl implements VoteRepository {
     private ProxyUserRepository proxyUserRepository;
 
     @Autowired
-    private ProxyAdminRepository proxyAdminRepository;
+    private ProxyRestaurantRepository proxyRestaurantRepository;
 
     @Override
     @Transactional
-    public Vote save(Vote vote, int user_id, int admin_id) {
+    public Vote save(Vote vote, int userId, int restaurantId) {
         LocalDate localDateToday = LocalDate.now();
-        if (!vote.isNew() && (getVote(vote.getId(), user_id, vote.getLocalDate()) == null)
+        if (!vote.isNew() && (getVote(vote.getId(), userId, vote.getLocalDate()) == null)
                 || !vote.getLocalDate().equals(localDateToday)) {
             return null;
         }
@@ -37,19 +38,19 @@ public class VoteRepositoryImpl implements VoteRepository {
             return null;
         }
 
-        vote.setAdmin(proxyAdminRepository.getOne(admin_id));
-        vote.setUser_id(proxyUserRepository.getOne(user_id).id());
+        vote.setRestaurant(proxyRestaurantRepository.getOne(restaurantId));
+        vote.setUserId(proxyUserRepository.getOne(userId).id());
         return proxyVoteRepository.save(vote);
     }
 
     @Override
-    public Vote getVote(int id, int user_id, LocalDate localDate) {
-        return proxyVoteRepository.getVote(id, user_id, localDate);
+    public Vote getVote(int id, int userId, LocalDate localDate) {
+        return proxyVoteRepository.getVote(id, userId, localDate);
     }
 
     @Override
-    public List<Vote> getAllVotesOfAdmin(int admin_id) {
-        return proxyVoteRepository.getAllVotesOfAdmin(admin_id);
+    public List<Vote> getAllVotesOfRestaurant(int restaurantId) {
+        return proxyVoteRepository.getAllVotesOfRestaurant(restaurantId);
     }
 
     @Override
