@@ -35,7 +35,10 @@ Use curl for test:
 `curl -s http://localhost:8080/votingrestaurants/restaurants/dishes/100007`
 
 #### create Dishes For Restaurant 10007 ()
-`curl -s -X POST -d '{"name":"новая еда","price":"250"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/restaurants/dishes/100007/create --user admin0@yandex.ru:password0`
+`curl -s -X POST -d '{"name":"новая еда","price":"250","userId":"100000"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/restaurants/dishes/100007/create --user admin0@yandex.ru:password0`
+
+#### update Dishes 100009 For Restaurant 10007 ()
+`curl -s -X PUT -d '{"id":"100009","name":"обновленная еда","price":"50000","localDate":"2021-01-09","userId":"100000"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/restaurants/dishes/100007/update/100009 --user admin0@yandex.ru:password0`
 
 #### delete Dishes 100009 For Restaurant 100007
 `curl -s -X DELETE http://localhost:8080/votingrestaurants/restaurants/dishes/100007/delete/100009 --user admin0@yandex.ru:password0`
@@ -62,3 +65,9 @@ Use curl for test:
 
 #### create Vote User 100002 Restaurant 100007 (the date in the body should be today)
 `curl -s -X POST -d '{"localDate":"2021-01-09","localTime":"10:30:00","userId":100002}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/restaurants/votes/100007/create --user user0@yandex.ru:password0`
+
+#### update Vote User 100002 Restaurant 100007 after eleven o clock (the date in the body should be today) (shoul be NotFoundException Entity 100020) before test create Vote
+`curl -s -X PUT -d '{"id":"100020","localDate":"2021-01-09","localTime":"16:30:00","userId":100002}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/restaurants/votes/100007/update/100020 --user user0@yandex.ru:password0`
+
+#### update Vote User 100002 Restaurant 100007 before eleven o clock (the date in the body should be today) before test create Vote
+`curl -s -X PUT -d '{"id":"100020","localDate":"2021-01-09","localTime":"10:55:00","userId":100002}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/votingrestaurants/restaurants/votes/100007/update/100020 --user user0@yandex.ru:password0`

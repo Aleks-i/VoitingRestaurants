@@ -15,6 +15,7 @@ public class VoteTestData {
     public static final int USER_ID = START_SEQ + 2;
     public static final int RESTAURANT_ID_1 = START_SEQ + 7;
     public static final int RESTAURANT_ID_2 = START_SEQ + 8;
+    public static final int NEW_VOTE_ID = START_SEQ + 20;
 
     public static final Restaurant RESTAURANT_1 = new Restaurant(RESTAURANT_ID_1, "Уфа");
     public static final Restaurant RESTAURANT_2 = new Restaurant(RESTAURANT_ID_2, "Чишма");
@@ -45,17 +46,17 @@ public class VoteTestData {
         return newVote;
     }
 
-    public static Vote getNewVoteAfterEleven() {
-        Vote newVote = new Vote(VOTE_ID, LocalDate.now(),
+    public static Vote getUpatedVoteAfterEleven() {
+        Vote newVote = new Vote(NEW_VOTE_ID, LocalDate.now(),
                 LocalTime.of(15, 30, 45), USER_ID);
-        newVote.setRestaurant(RESTAURANT_2);
+        newVote.setRestaurant(RESTAURANT_1);
         return newVote;
     }
 
-    public static Vote getNewVoteBeforeEleven() {
-        Vote newVote = new Vote(VOTE_ID, LocalDate.now(),
+    public static Vote getUpdatedVoteBeforeEleven() {
+        Vote newVote = new Vote(NEW_VOTE_ID, LocalDate.now(),
                 LocalTime.of(10, 50, 45), USER_ID);
-        newVote.setRestaurant(RESTAURANT_2);
+        newVote.setRestaurant(RESTAURANT_1);
         return newVote;
     }
 }

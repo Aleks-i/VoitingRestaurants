@@ -9,6 +9,7 @@ import ru.votingrestaurants.topjava20.repository.VoteRepository;
 import java.time.LocalDate;
 import java.util.List;
 
+import static ru.votingrestaurants.topjava20.util.ValidationUtil.assureIdConsistent;
 import static ru.votingrestaurants.topjava20.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -19,12 +20,13 @@ public class VoteService {
 
     public Vote save(Vote vote, int userId, int restaurantId) {
         Assert.notNull(vote, "vote must not be null");
-        return checkNotFoundWithId(voteRepository.save(vote, userId, restaurantId), userId);
+        return checkNotFoundWithId(voteRepository.save(vote, userId, restaurantId), vote.id());
     }
 
-    public void update(Vote vote, int userId, int restaurantId) {
+    public void update(Vote vote, int userId, int restaurantId, int id) {
         Assert.notNull(vote, "user must be not null");
-        checkNotFoundWithId(voteRepository.save(vote, userId, restaurantId), vote.id());
+        assureIdConsistent(vote, id);
+        checkNotFoundWithId(voteRepository.save(vote, userId, restaurantId), id);
     }
 
     public Vote getVote(int id, int userId, LocalDate localDate) {

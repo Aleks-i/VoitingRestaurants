@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.votingrestaurants.topjava20.View;
 import ru.votingrestaurants.topjava20.model.Dish;
+import ru.votingrestaurants.topjava20.model.Vote;
 import ru.votingrestaurants.topjava20.service.DishService;
 import ru.votingrestaurants.topjava20.web.SecurityUtil;
 
@@ -39,11 +40,19 @@ public class DishRestController {
         checkNew(dish);
         dish.setLocalDate(LocalDate.now());
         LOG.info("save {} for admin {}", dish, userId);
-        Dish createdDis = dishService.create(dish, restaurantId);
+        Dish createdDis = dishService.create(dish, userId, restaurantId);
         URI ofNewRecourse = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL_DINNERS + "/{id}")
                 .buildAndExpand(createdDis.getId()).toUri();
         return ResponseEntity.created(ofNewRecourse).body(createdDis);
+    }
+
+    @PutMapping(value = "/{restaurantId}/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Validated(View.Web.class) @RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
+        int userId = SecurityUtil.authUserId();
+        LOG.info("update vote id {} for user id {}", id, userId);
+        dishService.update(dish, userId, restaurantId, id);
     }
 
     @DeleteMapping("/{restaurantId}/delete/{id}")
